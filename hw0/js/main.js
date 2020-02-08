@@ -1,47 +1,19 @@
 "use strict";
 
-function make_main_game_state( game )
-{
-    function preload() {
-        // Load an image and call it 'logo'.
-        game.load.image( 'logo', 'assets/phaser.png' );
-    }
-    
-    let bouncy;
-    
-    function create() {
-        // Create a sprite at the center of the screen using the 'logo' image.
-        bouncy = game.add.sprite( game.world.centerX, game.world.centerY, 'logo' );
-        // Anchor the sprite at its center, as opposed to its top-left corner.
-        // so it will be truly centered.
-        bouncy.anchor.setTo( 0.5, 0.5 );
-        
-        // Turn on the arcade physics engine for this sprite.
-        game.physics.enable( bouncy, Phaser.Physics.ARCADE );
-        // Make it bounce off of the world bounds.
-        bouncy.body.collideWorldBounds = true;
-        
-        // Add some text using a CSS style.
-        // Center it in X, and position its top 15 pixels from the top of the world.
-        let style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
-        let text = game.add.text( game.world.centerX, 15, "Build something amazing.", style );
-        text.anchor.setTo( 0.5, 0.0 );
-    }
-    
-    function update() {
-        // Accelerate the 'logo' sprite towards the cursor,
-        // accelerating at 500 pixels/second and moving no faster than 500 pixels/second
-        // in X or Y.
-        // This function returns the rotation angle that makes it visually match its
-        // new trajectory.
-        bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, game.input.activePointer, 500, 500, 500 );
-    }
-    
-    return { "preload": preload, "create": create, "update": update };
-}
+let config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600
+};
 
+let game = new Phaser.Game(config);
 
-window.onload = function() {
+// Adding game states
+game.state.add('menu', myGame.Menu);
+game.state.add('level01', myGame.level01);
+game.state.start('menu');
+
+/*window.onload = function() {
     // You might want to start with a template that uses GameStates:
     //     https://github.com/photonstorm/phaser/tree/v2.6.2/resources/Project%20Templates/Basic
     
@@ -54,9 +26,43 @@ window.onload = function() {
     // loading functions to reflect where you are putting the assets.
     // All loading functions will typically all be found inside "preload()".
     
-    let game = new Phaser.Game( 800, 600, Phaser.AUTO, 'game' );
+    let game = new Phaser.Game(config);
     
     game.state.add( "main", make_main_game_state( game ) );
     
     game.state.start( "main" );
 };
+
+function make_main_game_state( game )
+{
+    function preload() {
+        // Load an images and name them as such
+        this.load.image('sky', 'assets/sky.png');
+        this.load.image('ground', 'assets/platform.png');
+        this.load.image('star', 'assets/star.png');
+        this.load.image('bomb', 'assets/bomb.png');
+        this.load.spritesheet('dude', 'assets/dude.png',
+            {frameWidth: 32, frameHeight: 48});
+    }
+    
+    let platforms;
+    
+    function create() {
+        this.add.image(0, 0, 'sky');
+        
+        platforms = this.physics.add.staticGroup();
+
+        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+        platforms.create(600, 400, 'ground');
+        platforms.create(50, 250, 'ground');
+        platforms.create(750, 220, 'ground');
+    }
+    
+    function update() {
+        
+    }
+    
+    return { "preload": preload, "create": create, "update": update };
+}
+*/
