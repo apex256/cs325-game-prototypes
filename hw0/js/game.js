@@ -17,7 +17,7 @@ let config = {
 }
 
 let gameSettings = {
-    playerSpeed: 175,
+    playerSpeed: 225,
     playerJumpVelocity: -200
 }
 

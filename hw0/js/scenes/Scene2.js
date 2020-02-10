@@ -22,7 +22,7 @@ class Scene2 extends Phaser.Scene {
         buttonSound = this.sound.add('press');
         timer = this.time.addEvent({
             delay: 750,
-            callback: function(){startText.visible = !startText.visible;},
+            callback: function() {startText.visible = !startText.visible;},
             loop: true
         });
 
