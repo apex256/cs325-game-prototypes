@@ -12,6 +12,10 @@ class Scene1 extends Phaser.Scene {
             frameWidth: 48,
             frameHeight: 48
         });
+        this.load.spritesheet("star", "assets/star.png", {
+            frameWidth: 24,
+            frameHeight: 22
+        });
         this.load.spritesheet("player", "assets/dude.png", {
             frameWidth: 32,
             frameHeight: 48

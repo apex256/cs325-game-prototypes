@@ -3,6 +3,7 @@
 let config = {
     width: 800,
     height: 600,
+    parent: 'game',
     backgroundColor: 0x000000,
     scene: [Scene1, Scene2, Scene3],
     pixelArt: true,

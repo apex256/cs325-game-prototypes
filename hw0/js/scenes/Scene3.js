@@ -3,21 +3,25 @@
 class Scene3 extends Phaser.Scene {
     constructor() {
         super("game");
-
-        this.gameOver = false;
     }
 
     create() {
+        this.gameOver = false;
+
         this.background = this.add.image(0, 0, "background");
         this.background.setOrigin(0, 0);
         this.player = this.physics.add.sprite(config.width/2, config.height/2, "player");
+
+        this.score = 0;
+        this.scoreText = this.add.bitmapText(0, 0, 'myFont', 'Score = 0', 32);
 
         // Groups
         this.blocks = this.physics.add.group({
             mass: 100
         });
-
-        // Physics groups
+        this.stars = this.physics.add.group({
+            mass: 100
+        });
         this.platforms = this.physics.add.staticGroup();
 
         // Player physics
@@ -28,6 +32,7 @@ class Scene3 extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.resetKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.sprintKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         // Ground
         this.platforms.create(400, 600, 'ground').setScale(2).refreshBody();
@@ -35,11 +40,20 @@ class Scene3 extends Phaser.Scene {
         // Colision
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.overlap(this.blocks, this.player, this.endGame, null, this);
+        this.physics.add.overlap(this.player, this.stars, this.addScore, null, this);
 
         // Block timer
-        this.timer = this.time.addEvent({
-            delay: 100,
+        this.blockTimer = this.time.addEvent({
+            delay: 200,
             callback: this.spawnBlock,
+            callbackScope: this,
+            loop: true
+        });
+
+        // Star timer
+        this.starTimer = this.time.addEvent({
+            delay: 100,
+            callback: this.spawnStar,
             callbackScope: this,
             loop: true
         });
@@ -48,12 +62,19 @@ class Scene3 extends Phaser.Scene {
     update() {
         this.background.tilepositionX -= 0.5;
 
-        this.playerMovementManager();
+        if (!this.gameOver) 
+            this.playerMovementManager();
 
         // Updating blocks
         for (let i = 0; i < this.blocks.getChildren().length; i++) {
             let block = this.blocks.getChildren()[i];
             block.update();
+        }
+
+        // Updating stars
+        for (let i = 0; i < this.stars.getChildren().length; i++) {
+            let star = this.stars.getChildren()[i];
+            star.update();
         }
 
         if (this.gameOver && this.resetKey.isDown) {
@@ -63,6 +84,7 @@ class Scene3 extends Phaser.Scene {
      }
 
     playerMovementManager() {
+        // Directional movement
         if (this.cursorKeys.left.isDown) {
             this.player.setVelocityX(-gameSettings.playerSpeed);
             this.player.anims.play("player_left", true);
@@ -76,8 +98,17 @@ class Scene3 extends Phaser.Scene {
             this.player.anims.play("player_turn", true);
         }
 
+        // Jumping
         if (this.jumpKey.isDown && this.player.body.touching.down) {
             this.player.setVelocityY(gameSettings.playerJumpVelocity);
+        }
+
+        // Sprinting
+        if (this.sprintKey.isDown && this.player.body.touching.down) {
+            gameSettings.playerSpeed = 400;
+        }
+        else {
+            gameSettings.playerSpeed = 225;
         }
     }
 
@@ -85,8 +116,19 @@ class Scene3 extends Phaser.Scene {
         let block = new Block(this);
     }
 
+    spawnStar() {
+        let star = new Star(this);
+    }
+
+    addScore(player, star) {
+        star.destroy();
+        this.score += 100;
+        this.scoreText.setText("Score: " + this.score);
+    }
+
     endGame() {
         this.physics.pause();
+        this.player.anims.stop();
         music.stop();
         this.player.setTint(0xFF0000);
         this.player.anims.play("player_turn");
