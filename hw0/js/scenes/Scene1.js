@@ -23,6 +23,8 @@ class Scene1 extends Phaser.Scene {
         this.load.bitmapFont('myFont', 'assets/font.png', 'assets/font.fnt');
         this.load.audio('music', 'assets/music01.ogg');
         this.load.audio('press', 'assets/ui_press.ogg');
+        this.load.audio('gameOver', 'assets/alien_death1.wav');
+        this.load.audio('starSound', 'assets/numkey.wav');
     }
 
     create() {

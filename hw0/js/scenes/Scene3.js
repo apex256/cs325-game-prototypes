@@ -7,6 +7,8 @@ class Scene3 extends Phaser.Scene {
 
     create() {
         this.gameOver = false;
+        this.gameOverSound = this.sound.add('gameOver');
+        this.starSound = this.sound.add('starSound');
 
         this.background = this.add.image(0, 0, "background");
         this.background.setOrigin(0, 0);
@@ -121,6 +123,7 @@ class Scene3 extends Phaser.Scene {
     }
 
     addScore(player, star) {
+        this.starSound.play();
         star.destroy();
         this.score += 100;
         this.scoreText.setText("Score: " + this.score);
@@ -130,6 +133,7 @@ class Scene3 extends Phaser.Scene {
         this.physics.pause();
         this.player.anims.stop();
         music.stop();
+        this.gameOverSound.play();
         this.player.setTint(0xFF0000);
         this.player.anims.play("player_turn");
         this.endText1 = this.add.bitmapText((config.width/2)-100, (config.height/2)-16, 'myFont', 'GAME OVER', 32);
