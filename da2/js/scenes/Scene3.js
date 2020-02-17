@@ -12,7 +12,7 @@ class Scene3 extends Phaser.Scene {
 
         this.background = this.add.image(0, 0, "background");
         this.background.setOrigin(0, 0);
-        this.player = this.physics.add.sprite(config.width/2, config.height/2, "player");
+        this.player = this.physics.add.sprite(config.width/2, config.height/2, "player").setScale(2);
 
         this.score = 0;
         this.scoreText = this.add.bitmapText(0, 0, 'myFont', 'Score = 0', 32);
@@ -27,7 +27,7 @@ class Scene3 extends Phaser.Scene {
         this.platforms = this.physics.add.staticGroup();
 
         // Player physics
-        this.player.setBounce(0.1);
+        this.player.setBounce(0.9);
         this.player.setCollideWorldBounds(true);
 
         // Input listeners
@@ -97,11 +97,11 @@ class Scene3 extends Phaser.Scene {
         }
         else {
             this.player.setVelocityX(0);
-            this.player.anims.play("player_turn", true);
+            this.player.anims.play("player_idle", true);
         }
 
         // Jumping
-        if (this.jumpKey.isDown && this.player.body.touching.down) {
+        if (this.jumpKey.isDown) {
             this.player.setVelocityY(gameSettings.playerJumpVelocity);
         }
 
