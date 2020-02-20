@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Digital Assignment 1</title>
+    <title>Digital Assignment 2</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="js/objects/Fart.js"></script>
     <script type="text/javascript" src="js/objects/Star.js"></script>
@@ -27,73 +27,72 @@ body
 <body>
 <div id="game"></div>
 <div id="readme">
-<h2>Star Collector</h2>
+<h2>Another Life</h2>
 
 <ul>
 <li><strong>Originality:</strong>
-The originality of my game is the two elements of dodging blocks and collecting stars at the same time.
+The originality of my game is the aspect of climbing/flying up in the sky whilst dodging fart clouds.
 </li>
 
 <li><strong>Technical Merit:</strong>
-I used a new phaser project and re-structured the assignments directories and code structure so that it is more object oriented, the boxes and stars are both randomized and on a timer object, the text on the title screen it on a timer, I used a custom bitmap font for all of the text, and there is also a sprinting mechanic.
+I used a object-oriented approach to phaser with the seperations of scenes and objects. I used a tilemap for this assignment instead of a generic background image. Then I used Photoshop to create the heaven "effect" for the top of the screen.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-This project taught me how to use Phaser3 and Javascript with a level of object-orientation.
-The hardest part was switching from Phaser2 to Phaser3, I had previously made the game in Phaser2 but after seeings the amount of support Phaser3 had I decided to switch over. The easiest part was the conceptual idea of the game. I find it easier to prototype digitally than I do physically.
+This assignment taught me some more refinement on javascript. I learned more about how classes and how scripts are loaded and was able to remove a lot of redundant code. The easiest part was the the coding and the hardest part was making the sprites and assets.
 </li>
 
 <li><strong>Prototype Assets:</strong>
-All of the assets used were in phaser's default asset kit from its tutorials.
 <ul>
-<li>All of the assets used: <a href="https://phaser.io/tutorials/making-your-first-phaser-3-game/phaser3-tutorial-src.zip">Phaser Tutorial Asset Pack (href is a link to a file not page)</a></li>
-<li>Song: <a href="https://www.youtube.com/watch?v=x8eHKzZHzcA">SMW Custom Music - (Super Mario Bros. 2 - Overworld (16-bit))</a></li>
+<li>All of the default assets used: <a href="https://phaser.io/tutorials/making-your-first-phaser-3-game/phaser3-tutorial-src.zip">Phaser Tutorial Asset Pack (href is a link to a file not page)</a></li>
+<li>Song: <a href="https://www.youtube.com/watch?v=KF32DRg9opA">DuckTales Music (NES) - The Moon Theme</a></li>
+<li>Ghost sprite: Created by me</li>
+<li>Fart sprite: Created by me</li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-All of the code was made by me, I did use the basic physics example from the Phaser 3 tutorials. The closest game this would resemble would be a vertical shoot-em-up game without the scrolls and vertical movement (in a sense that you are dodging things and colecting things, there is just no vertical movement besides jumping).
+All of the code was made by me, I did use the framework and architecture from my first assignment. The closest other game to this would be Flappy Bird.
 </li>
 
 <li><strong>High Concept:</strong>
-You are an alien stuck on planet earth trying to dodge all of the boxes that the humans are dropping on you whilst collecting stars to refuel your spaceship. You lose by being hit by a box and your score increases per star you collect.
+Your name is Jeff and you have just died, you must now race to heaven while dodging the farts from Satan in order to make it to the after-life!
 </li>
 
 <li><strong>Theme:</strong>
-Field not used for this assignment.
+I used the theme of life and death.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-I used a side view (left-to-right) platformer input style for this game, there is a degree of randomness in where the boxes and stars drop, the genre would be a casual platformer, the type of play-style is a run, dodge, and collect play-style.
+I used keyboard inputs, randomness, the achiever play-type, and a side(top) scroller genre.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The game mechanics that are being prototyped in this game are the movement (walking, sprinting, jumping), and the random box/star spawning.
+The game mechanic being prototyped by this game is the flying or "hop flying" mechanic. This mechanic is similar to the flappy bird fly mechanic except it is used in a different directional plane.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-The players should experience a feeling of dread and excitement while playing this game. Dread from the boxes and excitement from the scoring. There is little to no element of competitiveness in this game.
+The player should feel excitement as he rushes to the heavens and immediate fear as he sees Satan's farts.
 </li>
 
 <li><strong>Gameplay:</strong>
-The player can move left and right (using the left and right arrows), walk or sprint (by holding shift), and jump (by pressing the spacebar). Players start at a score of 0 and gain 100 points each time they grab a star (by walking into them) that falls from the sky, they will lose the game if they hit a green box which falls from the sky aswell.
-A paragraph describing the actions the player can perform, the system dynamics, and the core mechanic. Include a concise explanation of the prototype’s inputs and their expected effects (how to play). You can also describe game play that is not in the prototype. You may include mock-up images for parts of the game not in the prototype.
+The player can move up, left, and right. He has to dodge green fart clouds while heading up the map. The Left and Right arrows should move the player accordingly and the space key should propel the player up. The player should die (again since he is a ghost) when he touches a green fart cloud, and he should win when he reaches a certain point on top (heaven).
 </li>
 
 <li><strong>Strategies:</strong>
-A strategy that I tested and found effective was to stay in a small area and make small and basic movements to avoid the blocks instead of running the length of the map.
+A good strategy for this is to not rush up the map and to take your time with your hops. You can often times rush up into a fart cloud and die.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-The player is an alien who has ran out of fuel and landed on the earth, his space ship is powered by stars and he is in the rare event of a day-time star-shower on the earth so he is trying to collect as many stars as he can to fuel his ship. The humans on the earth are trying to stop him by dropping green boxes on him so they can use the star themselves as a substitute for oil in their economy. This story is unique because not only does it tell a tale about an alien that has lost his way in the universe, but also shows the struggle for non-renewable resources on the earth. The only feasable dramatic-tension (it isn't much) is the urgency to collect fuel for your ship.
+You are Jeff, you have died, and now you are trying to get to heaven from earth as a ghost without being hit by Satan's deadly toxic fart clouds.
 </li>
 
 <li><strong>Target Audience:</strong>
-The target-audience this is trying to reach is for young children.
+The target-audience this is trying to reach is for children to teenagers.
 </li>
 
 <li><strong>Play Time:</strong>
-The play time is all dependent on the player's skill, in theory this could go on forever, but the average playtime is 1-5 minutes.
+It takes about 2 minutes to rush up the map, with some delicacy it can take 2-4 minutes.
 </li>
 
 </ul>
