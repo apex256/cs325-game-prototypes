@@ -11,14 +11,14 @@ let config = {
         default: "arcade",
         arcade: {
             debug: false,
-            gravity: { y: 300 },
+            gravity: { y: 30 },
             overlapBias: 8
         }
     }
 }
 
 let gameSettings = {
-    playerSpeed: 225,
+    playerSpeed: 400,
     playerJumpVelocity: -200
 }
 

@@ -1,10 +1,7 @@
 'use strict';
 
 let startText;
-let music;
 let buttonSound;
-let timer;
-let playKey;
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -18,26 +15,24 @@ class Scene2 extends Phaser.Scene {
         this.add.bitmapText(6, config.height-24, 'myFont', 'Made by David Mark McMasters', 16);
 
         startText = this.add.bitmapText((config.width/2)-240, (config.height/2)-16, 'myFont', 'PRESS ENTER TO BEGIN', 32);
-        music = this.sound.add('music');
         buttonSound = this.sound.add('press');
-        timer = this.time.addEvent({
+        this.timer = this.time.addEvent({
             delay: 750,
             callback: function() {startText.visible = !startText.visible;},
             loop: true
         });
 
         // Inputs
-        playKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.playKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
 
     update() {
         // Transition to next state on ENTER press
-        if (playKey.isDown) this.startGame();
+        if (this.playKey.isDown) this.startGame();
     }
 
     startGame() {
-        this.scene.start("game");
+        this.scene.start("controls");
         buttonSound.play();
-        music.play();
     }
 }

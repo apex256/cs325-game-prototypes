@@ -8,13 +8,10 @@ class Scene1 extends Phaser.Scene {
     preload() {
         this.load.image("background", "assets/sky2.png");
         this.load.image("ground", "assets/platform.png");
-        this.load.spritesheet("block", "assets/block_green.png", {
-            frameWidth: 48,
-            frameHeight: 48
-        });
-        this.load.spritesheet("star", "assets/star.png", {
-            frameWidth: 24,
-            frameHeight: 22
+        this.load.image("heaven", "assets/heaven.png");
+        this.load.spritesheet("fart", "assets/fart.png", {
+            frameWidth: 64,
+            frameHeight: 64
         });
         this.load.spritesheet("player", "assets/ghost.png", {
             frameWidth: 32,
@@ -22,9 +19,13 @@ class Scene1 extends Phaser.Scene {
         });
         this.load.bitmapFont('myFont', 'assets/font.png', 'assets/font.fnt');
         this.load.audio('music', 'assets/music01.ogg');
-        this.load.audio('press', 'assets/ui_press.ogg');
-        this.load.audio('gameOver', 'assets/alien_death1.wav');
-        this.load.audio('starSound', 'assets/numkey.wav');
+        this.load.audio('press', 'assets/menu_select.mp3');
+        this.load.audio('gameOver', 'assets/shot1.wav');
+        this.load.audio('fart', 'assets/fart.ogg');
+
+        // Tilemap loading
+        this.load.image("terrain", "assets/galaxy-Z.png");
+        this.load.tilemapTiledJSON("map", "assets/maps/map.json");
     }
 
     create() {

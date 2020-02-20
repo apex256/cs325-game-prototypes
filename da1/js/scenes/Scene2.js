@@ -1,10 +1,10 @@
 'use strict';
 
 let startText;
-let music;
 let buttonSound;
 let timer;
 let playKey;
+let music;
 
 class Scene2 extends Phaser.Scene {
     constructor() {
@@ -17,8 +17,8 @@ class Scene2 extends Phaser.Scene {
 
         this.add.bitmapText(6, config.height-24, 'myFont', 'Made by David Mark McMasters', 16);
 
-        startText = this.add.bitmapText((config.width/2)-240, (config.height/2)-16, 'myFont', 'PRESS ENTER TO BEGIN', 32);
         music = this.sound.add('music');
+        startText = this.add.bitmapText((config.width/2)-240, (config.height/2)-16, 'myFont', 'PRESS ENTER TO BEGIN', 32);
         buttonSound = this.sound.add('press');
         timer = this.time.addEvent({
             delay: 750,

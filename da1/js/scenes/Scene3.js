@@ -46,7 +46,7 @@ class Scene3 extends Phaser.Scene {
 
         // Block timer
         this.blockTimer = this.time.addEvent({
-            delay: 200,
+            delay: 100,
             callback: this.spawnBlock,
             callbackScope: this,
             loop: true
@@ -54,7 +54,7 @@ class Scene3 extends Phaser.Scene {
 
         // Star timer
         this.starTimer = this.time.addEvent({
-            delay: 100,
+            delay: 10,
             callback: this.spawnStar,
             callbackScope: this,
             loop: true

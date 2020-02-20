@@ -5,21 +5,21 @@ let config = {
     height: 600,
     parent: 'game',
     backgroundColor: 0x000000,
-    scene: [Scene1, Scene2, Scene3],
+    scene: [Scene1, Scene2, ControlsScene, Scene3],
     pixelArt: true,
     physics: {
         default: "arcade",
         arcade: {
             debug: false,
-            gravity: { y: 300 },
+            gravity: { y: 1000 },
             overlapBias: 8
         }
     }
 }
 
 let gameSettings = {
-    playerSpeed: 225,
-    playerJumpVelocity: -200
+    playerSpeed: 300,
+    playerJumpVelocity: -400
 }
 
 let game = new Phaser.Game(config);

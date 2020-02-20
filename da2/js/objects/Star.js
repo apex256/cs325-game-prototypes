@@ -11,7 +11,7 @@ class Star extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        if((this.x < -16) || (this.x > config.width+16) || (this.y > config.height+16)) {
+        if((this.x < -16) || (this.x > config.width+16) || (this.y > 16000+16)) {
             this.destroy();
         }
     }

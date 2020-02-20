@@ -7,28 +7,32 @@ class Scene3 extends Phaser.Scene {
 
     create() {
         this.gameOver = false;
+
         this.gameOverSound = this.sound.add('gameOver');
-        this.starSound = this.sound.add('starSound');
 
-        this.background = this.add.image(0, 0, "background");
-        this.background.setOrigin(0, 0);
-        this.player = this.physics.add.sprite(config.width/2, config.height/2, "player").setScale(2);
+        // Camera setup
+        this.cameras.main.setBounds(0, 0, 800, 16000);
 
-        this.score = 0;
-        this.scoreText = this.add.bitmapText(0, 0, 'myFont', 'Score = 0', 32);
+        // Tilemap
+        this.map = this.add.tilemap("map");
+        this.terrain = this.map.addTilesetImage("galaxy-Z", "terrain");
+
+        // Tilemap layers
+        this.layer1 = this.map.createStaticLayer("Tile Layer 1", [this.terrain], 0, 0);
+
+        // Player
+        this.player = this.physics.add.sprite(config.width/2, 15800, "player");
+        this.player.setBounce(0.5);
+        this.player.setCollideWorldBounds(true);
+        this.player.setSize(20, 26);
+        this.player.setScale(2);
 
         // Groups
-        this.blocks = this.physics.add.group({
-            mass: 100
-        });
-        this.stars = this.physics.add.group({
-            mass: 100
+        this.farts = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
         });
         this.platforms = this.physics.add.staticGroup();
-
-        // Player physics
-        this.player.setBounce(0.9);
-        this.player.setCollideWorldBounds(true);
 
         // Input listeners
         this.cursorKeys = this.input.keyboard.createCursorKeys();
@@ -37,46 +41,52 @@ class Scene3 extends Phaser.Scene {
         this.sprintKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         // Ground
-        this.platforms.create(400, 600, 'ground').setScale(2).refreshBody();
+        this.platforms.create(400, 16000, 'ground').setScale(4).refreshBody();
 
         // Colision
         this.physics.add.collider(this.player, this.platforms);
-        this.physics.add.overlap(this.blocks, this.player, this.endGame, null, this);
-        this.physics.add.overlap(this.player, this.stars, this.addScore, null, this);
+        this.physics.add.overlap(this.farts, this.player, this.endGame, null, this);
 
-        // Block timer
-        this.blockTimer = this.time.addEvent({
-            delay: 200,
-            callback: this.spawnBlock,
+        // Fart timer
+        this.fartTimer = this.time.addEvent({
+            delay: 50,
+            callback: this.spawnFart,
             callbackScope: this,
             loop: true
         });
 
-        // Star timer
-        this.starTimer = this.time.addEvent({
-            delay: 100,
-            callback: this.spawnStar,
+        // Camera Initialization
+        this.cameras.main.startFollow(this.player, true, 1.00, 1.00);
+        this.cameras.main.setZoom(1.25);
+
+        // Bounds
+        this.physics.world.setBounds(0, 0, 800, 16000);
+
+        // Fart sound
+        this.fartSound = this.sound.add('fart');
+        this.fartSoundTimer = this.time.addEvent({
+            delay: 5000,
+            callback: () => {this.fartSound.play();},
             callbackScope: this,
             loop: true
         });
+
+        // Heaven image
+        this.add.image(400, 800, "heaven");
     }
 
     update() {
-        this.background.tilepositionX -= 0.5;
+        if (this.player.y < 400) {
+            this.winGame();
+        }
 
         if (!this.gameOver) 
             this.playerMovementManager();
 
-        // Updating blocks
-        for (let i = 0; i < this.blocks.getChildren().length; i++) {
-            let block = this.blocks.getChildren()[i];
-            block.update();
-        }
-
-        // Updating stars
-        for (let i = 0; i < this.stars.getChildren().length; i++) {
-            let star = this.stars.getChildren()[i];
-            star.update();
+        // Updating farts
+        for (let i = 0; i < this.farts.getChildren().length; i++) {
+            let fart = this.farts.getChildren()[i];
+            fart.update();
         }
 
         if (this.gameOver && this.resetKey.isDown) {
@@ -104,29 +114,11 @@ class Scene3 extends Phaser.Scene {
         if (this.jumpKey.isDown) {
             this.player.setVelocityY(gameSettings.playerJumpVelocity);
         }
-
-        // Sprinting
-        if (this.sprintKey.isDown && this.player.body.touching.down) {
-            gameSettings.playerSpeed = 400;
-        }
-        else {
-            gameSettings.playerSpeed = 225;
-        }
     }
 
-    spawnBlock() {
-        let block = new Block(this);
-    }
-
-    spawnStar() {
-        let star = new Star(this);
-    }
-
-    addScore(player, star) {
-        this.starSound.play();
-        star.destroy();
-        this.score += 100;
-        this.scoreText.setText("Score: " + this.score);
+    spawnFart() {
+        let fart = new Fart(this);
+        this.physics.moveToObject(fart, fart.target, 250);
     }
 
     endGame() {
@@ -135,9 +127,17 @@ class Scene3 extends Phaser.Scene {
         music.stop();
         this.gameOverSound.play();
         this.player.setTint(0xFF0000);
-        this.player.anims.play("player_turn");
-        this.endText1 = this.add.bitmapText((config.width/2)-100, (config.height/2)-16, 'myFont', 'GAME OVER', 32);
-        this.endText2 = this.add.bitmapText(28, (config.height/2)+16, 'myFont', 'PRESS ENTER TO GO BACK TO THE MENU', 32);
+        this.add.bitmapText((config.width/2)-35, (this.player.y)-16, 'myFont', 'GAME OVER', 24);
+        this.add.bitmapText(128, (this.player.y)+16, 'myFont', 'PRESS ENTER TO GO BACK TO THE MENU', 24);
+        this.gameOver = true;
+    }
+
+    winGame() {
+        this.physics.pause();
+        this.player.anims.stop();
+        music.stop();
+        this.add.bitmapText((config.width/2)-35, (this.player.y)-16, 'myFont', 'YOU WIN!', 24);
+        this.add.bitmapText(128, (this.player.y)+16, 'myFont', 'PRESS ENTER TO GO BACK TO THE MENU', 24);
         this.gameOver = true;
     }
 }
