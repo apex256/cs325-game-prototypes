@@ -1,58 +1,58 @@
 'use strict';
 
-class Scene1 extends Phaser.Scene {
+let buttonSound;
+
+class Boot extends Phaser.Scene {
     constructor() {
         super("boot");
     }
 
     preload() {
         // Images and spritesheets
-        this.load.image("background", "assets/sky2.png");
-        this.load.image("ground", "assets/platform.png");
-        this.load.image("heaven", "assets/heaven.png");
-        this.load.spritesheet("fart", "assets/fart.png", {
-            frameWidth: 64,
-            frameHeight: 64
+        this.load.image("titleBackground", "assets/images/deepblue.png");
+        this.load.spritesheet("cat", "assets/sprites/cat.png", {
+            frameWidth: 22,
+            frameHeight: 20
         });
-        this.load.spritesheet("player", "assets/ghost.png", {
-            frameWidth: 32,
-            frameHeight: 32
+        this.load.spritesheet("player", "assets/sprites/player.png", {
+            frameWidth: 24,
+            frameHeight: 46
         });
 
         // Bitmap font
-        this.load.bitmapFont('myFont', 'assets/font.png', 'assets/font.fnt');
+        this.load.bitmapFont("myFont", "assets/font/font.png", "assets/font/font.fnt");
 
         // Audio
-        this.load.audio('music', 'assets/music01.ogg');
-        this.load.audio('press', 'assets/menu_select.mp3');
-        this.load.audio('gameOver', 'assets/shot1.wav');
-        this.load.audio('fart', 'assets/fart.ogg');
+        //this.load.audio('music', 'assets/music01.ogg');
 
         // Tilemap loading
-        this.load.image("terrain", "assets/galaxy-Z.png");
+        this.load.image("terrainDefault", "assets/tiles/default.png");
+        this.load.image("terrainCity", "assets/tiles/city.png");
         this.load.tilemapTiledJSON("map", "assets/maps/map.json");
     }
 
     create() {
+        //buttonSound = this.sound.add("press");
+
         this.scene.start("title");
 
         // Player animations
         this.anims.create({
-            key: "player_idle",
-            frames: [ { key: 'player', frame: 0} ],
+            key: "player_right",
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 0,
+                end: 1
+            }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: "player_left",
-            frames: [ { key: 'player', frame: 1} ],
+            frames: this.anims.generateFrameNumbers("player", {
+                start: 2,
+                end: 3
+            }),
             frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: "player_right",
-            frames: [ { key: 'player', frame: 2 } ],
-            frameRate: 20,
             repeat: -1
         });
     }
