@@ -18,6 +18,10 @@ class Boot extends Phaser.Scene {
             frameWidth: 24,
             frameHeight: 46
         });
+        this.load.spritesheet("ghost", "assets/ghost.png", {
+            frameWidth: 32,
+            frameHeight: 32
+        });
 
         // Bitmap font
         this.load.bitmapFont("myFont", "assets/font/font.png", "assets/font/font.fnt");
@@ -53,6 +57,38 @@ class Boot extends Phaser.Scene {
                 end: 3
             }),
             frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "player_right_idle",
+            frames: [ { key: "player", frame: 0} ],
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "player_left_idle",
+            frames: [ { key: "player", frame: 2} ],
+            frameRate: 10,
+            repeat: -1
+        });
+
+        // Ghost animations
+        this.anims.create({
+            key: "ghost_idle",
+            frames: [ { key: "ghost", frame: 0} ],
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "ghost_left",
+            frames: [ { key: "ghost", frame: 1} ],
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "ghost_right",
+            frames: [ { key: "ghost", frame: 2 } ],
+            frameRate: 20,
             repeat: -1
         });
     }

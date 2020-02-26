@@ -1,13 +1,13 @@
-class Star extends Phaser.GameObjects.Sprite {
+class Ghost extends Phaser.GameObjects.Sprite {
     constructor(scene) {
-        super(scene, Phaser.Math.Between(0, config.width), -500, "star");
+        super(scene, Phaser.Math.Between(0, config.width), -500, "ghost");
 
         scene.add.existing(this);
 
         scene.physics.world.enableBody(this);
         this.body.velocity.y = 150;
 
-        scene.stars.add(this);
+        scene.ghosts.add(this);
     }
 
     update() {

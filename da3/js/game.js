@@ -4,7 +4,7 @@ let config = {
     width: 800,
     height: 600,
     parent: 'game',
-    backgroundColor: 0xFFFFFF,
+    backgroundColor: 0x000000,
     scene: [Boot, Title, Controls, Level1],
     pixelArt: true,
     physics: {
