@@ -49,7 +49,7 @@ class Scene3 extends Phaser.Scene {
 
         // Fart timer
         this.fartTimer = this.time.addEvent({
-            delay: 50,
+            delay: 1,
             callback: this.spawnFart,
             callbackScope: this,
             loop: true

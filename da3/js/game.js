@@ -5,7 +5,7 @@ let config = {
     height: 600,
     parent: 'game',
     backgroundColor: 0x000000,
-    scene: [Boot, Title, Controls, Level1],
+    scene: [Boot, Title, Controls, Level1, End],
     pixelArt: true,
     physics: {
         default: "arcade",
@@ -19,7 +19,8 @@ let config = {
 
 let gameSettings = {
     playerSpeed: 300,
-    playerJumpVelocity: -400
+    playerJumpVelocity: -800,
+    ghostSpeed: 200
 }
 
 let game = new Phaser.Game(config);

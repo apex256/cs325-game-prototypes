@@ -1,5 +1,7 @@
 'use strict';
 
+let cond;
+
 class Level1 extends Phaser.Scene {
     constructor() {
         super("level1");
@@ -8,7 +10,7 @@ class Level1 extends Phaser.Scene {
     preload() {
         this.load.scenePlugin({
             key: "WeaponPlugin",
-            url: "WeaponPlugin.js",
+            url: "js/WeaponPlugin.js",
             sceneKey: "weapon"
         });
     }
@@ -16,6 +18,11 @@ class Level1 extends Phaser.Scene {
     create() {
         this.gameOver = false;
         this.facing = "right";
+        this.hp = 100;
+        this.music = this.sound.add("music");
+        this.shoot = this.sound.add("shoot");
+        this.music.play();
+        this.ghostCount = 50;
 
         // Tilemap
         this.map = this.add.tilemap("map");
@@ -29,15 +36,15 @@ class Level1 extends Phaser.Scene {
         this.bg1Layer = this.map.createStaticLayer("bg2", [this.terrainDefault, this.terrainCity], 0, 0);
 
         // Player
-        this.player = this.physics.add.sprite(0, 0, "player");
+        this.player = this.physics.add.sprite(120, 540, "player");
         this.player.setActive(true);
         this.player.setCollideWorldBounds(true);
         this.physics.add.collider(this.player, this.groundLayer);
         this.groundLayer.setCollisionByProperty({collides: true});
+        this.health = new Healthbar(this, this.player.x-40, this.player.y-44);
 
         // Groups
-        this.cats = this.physics.add.group({
-            immovable: true,
+        this.ghosts = this.physics.add.group({
             allowGravity: false
         });
 
@@ -45,7 +52,7 @@ class Level1 extends Phaser.Scene {
         this.catWeapon = this.weapon.add(300, "cat");
         this.catWeapon.bulletKillType = this.weapon.KILL_WORLD_BOUNDS;
         this.catWeapon.bulletSpeed = 800;
-        this.catWeapon.fireRate = 200;
+        this.catWeapon.fireRate = 100;
         this.catWeapon.bulletAngleVariance = 2;
         this.catWeapon.bulletSpeedVariance = 50;
         this.catWeapon.trackSprite(this.player, 15, -10, false);
@@ -55,6 +62,7 @@ class Level1 extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.shootKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+        this.sprintKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         // Camera Initialization
         this.cameras.main.startFollow(this.player, true, 1.00, 1.00);
@@ -63,16 +71,18 @@ class Level1 extends Phaser.Scene {
         // Bounds
         this.physics.world.setBounds(0, 0, 6400, 640);
         this.cameras.main.setBounds(0, 0, 6400, 640);
+
+        this.physics.add.overlap(this.ghosts, this.catWeapon.bullets, this.enemyHit, null, this);
+        this.physics.add.overlap(this.player, this.ghosts, this.playerHit, null, this);
+
+        for (let i = 0; i < this.ghostCount; i++) {
+            this.spawnGhost();
+        }
     }
 
     update() {
         if (!this.gameOver) 
             this.playerMovementManager();
-
-        if (this.gameOver && this.resetKey.isDown) {
-            this.scene.start("playGame");
-            buttonSound.play();
-        }
 
         if (this.shootKey.isDown) {
             this.catWeapon.fire();
@@ -83,6 +93,28 @@ class Level1 extends Phaser.Scene {
         }
         else {
             this.catWeapon.fireAngle = 195;
+        }
+
+        // Updating ghosts
+        for (let i = 0; i < this.ghosts.getChildren().length; i++) {
+            let ghost = this.ghosts.getChildren()[i];
+            ghost.update();
+        }
+        this.health.update(this.player.x-40, this.player.y-44);
+
+        if (this.hp <= 0) {
+            cond = 0;
+            this.endGame();
+        }
+
+        if (this.ghosts.getChildren().length <= 0) {
+            cond = 1;
+            this.endGame();
+        }
+
+        if (this.gameOver) {
+            buttonSound.play();
+            this.scene.start("end");
         }
      }
 
@@ -112,5 +144,41 @@ class Level1 extends Phaser.Scene {
         if (this.jumpKey.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(gameSettings.playerJumpVelocity);
         }
+
+        // Sprinting
+        if (this.sprintKey.isDown && this.player.body.onFloor()) {
+            gameSettings.playerSpeed = 650;
+        }
+        else {
+            gameSettings.playerSpeed = 400;
+        }
+    }
+
+    spawnGhost() {
+        let ghost = new Ghost(this);
+        ghost.setScale(5);
+    }
+
+    enemyHit(bullet, ghost) {
+        this.shoot.play();
+        ghost.onHit();
+        bullet.destroy();
+    }
+
+    playerHit() {
+        this.hp -= 0.1;
+        this.health.decrease(0.1);
+    }
+
+    endGame() {
+        this.gameOver = true;
+        this.physics.pause();
+        this.player.anims.stop();
+        this.player.setTint(0xFF0000);
+    }
+
+    destroy() {
+        console.log("ass");
+        this.WEAPON_PLUGIN.destroy();
     }
 }

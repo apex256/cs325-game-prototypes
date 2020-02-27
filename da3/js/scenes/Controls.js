@@ -20,6 +20,6 @@ class Controls extends Phaser.Scene {
         this.backText.setInteractive({ useHandCursor: true });
         this.backText.on("pointerover", () => {this.backText.setTint(0xFF0000);});
         this.backText.on("pointerout", () => {this.backText.clearTint();});
-        this.backText.on("pointerdown", () => {this.scene.start("title");});
+        this.backText.on("pointerdown", () => {this.scene.start("title"); buttonSound.play();});
     }
 }

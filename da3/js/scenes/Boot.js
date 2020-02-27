@@ -18,7 +18,7 @@ class Boot extends Phaser.Scene {
             frameWidth: 24,
             frameHeight: 46
         });
-        this.load.spritesheet("ghost", "assets/ghost.png", {
+        this.load.spritesheet("ghost", "assets/sprites/ghost.png", {
             frameWidth: 32,
             frameHeight: 32
         });
@@ -27,7 +27,9 @@ class Boot extends Phaser.Scene {
         this.load.bitmapFont("myFont", "assets/font/font.png", "assets/font/font.fnt");
 
         // Audio
-        //this.load.audio('music', 'assets/music01.ogg');
+        this.load.audio("music", "assets/audio/music01.ogg");
+        this.load.audio("button", "assets/audio/menu_select.mp3");
+        this.load.audio("shoot", "assets/audio/shot1.wav");
 
         // Tilemap loading
         this.load.image("terrainDefault", "assets/tiles/default.png");
@@ -36,7 +38,7 @@ class Boot extends Phaser.Scene {
     }
 
     create() {
-        //buttonSound = this.sound.add("press");
+        buttonSound = this.sound.add("button");
 
         this.scene.start("title");
 

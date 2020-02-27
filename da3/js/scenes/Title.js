@@ -22,7 +22,7 @@ class Title extends Phaser.Scene {
         this.startText.on("pointerout", () => {this.startText.clearTint();});
         this.controlsText.on("pointerover", () => {this.controlsText.setTint(0xFF0000);});
         this.controlsText.on("pointerout", () => {this.controlsText.clearTint();});
-        this.startText.on("pointerdown", () => {this.scene.start("level1");}); // change to intro
-        this.controlsText.on("pointerdown", () => {this.scene.start("controls");});
+        this.startText.on("pointerdown", () => {this.scene.start("level1"); buttonSound.play()});
+        this.controlsText.on("pointerdown", () => {this.scene.start("controls"); buttonSound.play()});
     }
 }
