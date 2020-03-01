@@ -9,7 +9,7 @@ export class Controls extends Phaser.Scene {
     }
 
     create() {
-        let background = this.add.image(0, 0, 'titleBackground').setOrigin(0, 0);
+        this.add.image(0, 0, 'titleBackground').setOrigin(0, 0);
 
         // Bitmap texts
         this.add.bitmapText(6, config.height-24, 'myFont', 'Made by David Mark McMasters', 16);
@@ -18,6 +18,9 @@ export class Controls extends Phaser.Scene {
         this.add.bitmapText((config.width/2), (config.height/2)-16, 'myFont', 'Place Block: X', 32).setOrigin(0.5);
         this.add.bitmapText((config.width/2), (config.height/2)+32, 'myFont', 'Jump: Spacebar', 32).setOrigin(0.5);
 
+        // Sound
+        let buttonSound = this.sound.add('button');
+
         // Back button
         let backButton = new TextButton(
             this, config.width/2, (config.height/2)+208,
@@ -25,7 +28,8 @@ export class Controls extends Phaser.Scene {
             'Back',
             32,
             () => {
-                this.scene.start('Menu');
+                buttonSound.play();
+                this.scene.start('Menu', { firstInstance: false });
             }
         ).setOrigin(0.5);
         this.add.existing(backButton);

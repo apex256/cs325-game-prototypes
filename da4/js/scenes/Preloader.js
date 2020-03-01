@@ -5,7 +5,7 @@ export class Preloader extends Phaser.Scene {
 
     preload() {
         // Images and spritesheets
-        this.load.image('titleBackground', 'assets/images/fog.png');
+        this.load.image('titleBackground', 'assets/images/background.png');
         this.load.spritesheet('cat', 'assets/sprites/cat.png', {
             frameWidth: 22,
             frameHeight: 20
@@ -23,9 +23,8 @@ export class Preloader extends Phaser.Scene {
         this.load.bitmapFont('myFont', 'assets/font/font.png', 'assets/font/font.fnt');
 
         // Audio
-        this.load.audio('music', 'assets/audio/music01.ogg');
-        this.load.audio('button', 'assets/audio/menu_select.mp3');
-        this.load.audio('shoot', 'assets/audio/shot1.wav');
+        this.load.audio('button', 'assets/audio/button_click01.ogg');
+        this.load.audio('menuSong', 'assets/audio/menu_song.ogg');
 
         // Tilemap loading
         this.load.image('terrainDefault', 'assets/tiles/default.png');
@@ -86,6 +85,7 @@ export class Preloader extends Phaser.Scene {
             repeat: -1
         });
 
-        this.scene.start('Menu');
+        // Starting Menu scene
+        this.scene.start('Menu', { firstInstance: true });
     }
 }
