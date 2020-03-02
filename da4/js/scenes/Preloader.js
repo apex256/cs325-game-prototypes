@@ -6,17 +6,16 @@ export class Preloader extends Phaser.Scene {
     preload() {
         // Images and spritesheets
         this.load.image('titleBackground', 'assets/images/background.png');
+        this.load.image('sky', 'assets/images/sky4.png');
         this.load.spritesheet('cat', 'assets/sprites/cat.png', {
             frameWidth: 22,
             frameHeight: 20
         });
+
+        // Sprites
         this.load.spritesheet('player', 'assets/sprites/player.png', {
             frameWidth: 24,
             frameHeight: 46
-        });
-        this.load.spritesheet('ghost', 'assets/sprites/ghost.png', {
-            frameWidth: 32,
-            frameHeight: 32
         });
 
         // Bitmap font
@@ -27,8 +26,7 @@ export class Preloader extends Phaser.Scene {
         this.load.audio('menuSong', 'assets/audio/menu_song.ogg');
 
         // Tilemap loading
-        this.load.image('terrainDefault', 'assets/tiles/default.png');
-        this.load.image('terrainCity', 'assets/tiles/city.png');
+        this.load.image('terrain', 'assets/tiles/spritesheet.png');
         this.load.tilemapTiledJSON('map', 'assets/maps/map.json');
     }
 
@@ -62,26 +60,6 @@ export class Preloader extends Phaser.Scene {
             key: 'player_left_idle',
             frames: [ { key: 'player', frame: 2} ],
             frameRate: 10,
-            repeat: -1
-        });
-
-        // Ghost animations
-        this.anims.create({
-            key: 'ghost_idle',
-            frames: [ { key: 'ghost', frame: 0} ],
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'ghost_left',
-            frames: [ { key: 'ghost', frame: 1} ],
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'ghost_right',
-            frames: [ { key: 'ghost', frame: 2 } ],
-            frameRate: 20,
             repeat: -1
         });
 

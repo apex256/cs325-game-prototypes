@@ -36,6 +36,7 @@ export class Menu extends Phaser.Scene {
             () => {
                 buttonSound.play();
                 music.stop();
+                // Starting Game scene
                 this.scene.start('Game');
             }
         ).setOrigin(0.5);
@@ -49,6 +50,7 @@ export class Menu extends Phaser.Scene {
             32,
             () => {
                 buttonSound.play();
+                // Starting Controls scene
                 this.scene.start('Controls');
             }
         ).setOrigin(0.5);
