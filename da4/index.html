@@ -25,15 +25,15 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-The originality of my game is the aspect of shooting cats from a cannon and moving throughout the city.
+The originality of my game is the aspect of building potentially your own homes and shelters with the in-game builder engine. And I guess the tilemap is original since I made it.
 </li>
 
 <li><strong>Technical Merit:</strong>
-I used a object-oriented approach to phaser with the seperation of scenes and objects. I used a tilemap with varrying layers and tilesets for this assignment instead of a generic background image. I also made my own AI and implemented a healthbar class, this healthbar is interactive with a health system I made for each of the objects (player/ghost). I also had to go into a pre-built plugin and modify it to work with Phaser3 in scene decomposition (WeaponsPlugin.js).
+I programmed AI for the ghosts, I made a builder engine for building physics objects in real-time for the blocks, and I made a grid system for the game map to lock block placement.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-This assignment taught me how to work with more advanced tilemaps with varrying layers and tilesets. The easiest part was getting the previous starter code I had up, running, and tweaked for this new project. The hardest part was debugging an outdated, not updated plugin called WeaponsPlugin.js.
+This assignment taught me more about how inheritance in JavaScript works. The easiest thing was setting up the inital skeleton of the game and the hardest thing was alligning the grid system perfectly.
 </li>
 
 <li><strong>Prototype Assets:</strong>
@@ -41,56 +41,57 @@ This assignment taught me how to work with more advanced tilemaps with varrying 
 <li>All of the default assets used: <a href="https://phaser.io/tutorials/making-your-first-phaser-3-game/phaser3-tutorial-src.zip">Phaser Tutorial Asset Pack (href is a link to a file not page)</a></li>
 <li>Menu Song: <a href="https://www.youtube.com/watch?v=7QggxuRyhqw">Hakoniwa Explorer Plus - In A Lonely Cave</a></li>
 <li>Button Press Sound: <a href="https://freesound.org/people/Nightflame/sounds/397599/">Menu FX 02</a></li>
+<li>Wood Break Sound: <a href="https://freesound.org/people/jorickhoofd/sounds/178593/">Breaking Wooden Plank</a></li>
+<li>Wood Placing Sound: <a href="https://freesound.org/people/InspectorJ/sounds/352115/">Dropping Wooden Plank</a></li>
 <li>Ghost sprite: Created by me</li>
-<li>Player sprite: Created by me</li>
-<li>Cat sprite: Created by me</li>
+<li>Chicken sprite: Created by me</li>
 <li>Tilemap: Created by me</li>
 <li>Tileset: <a href="https://opengameart.org/users/korba%E2%84%A2">Korba</a></li>
 </ul>
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-All of the code was made by me except portions of the health-bar class, that was obtained from phasers' examples page. The closest other game to this would be Contra for the NES.
+All of the code was made by me. The cloesest game this prototype resembles is Minecraft and Terraria
 </li>
 
 <li><strong>High Concept:</strong>
-You are a dude that just got done with his laundry! But the evil ghosts have invaded from the underworld! You must now fight with your cat shooting gun to save the town!
+You must build fortifications and defences in the setup stage, then survive with those in the defence stage.
 </li>
 
 <li><strong>Theme:</strong>
-The dead should stay dead. (Spooky ghosts)
+Sometimes simple is better.
 </li>
 
 <li><strong>Mandated Variety:</strong>
-I used keyboard inputs, deterministic gameplay, the achiever, and a shooter game genre.
+I used keyboard and mouse inputs, deterministic/random gameplay, the craftsman, and a side-scroller/puzzle genre.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The game mechanic being prototyped was the healthbar mechanic and the weapons plugin.
+The game mechanic being prototyped was the block building engine and the grid system.
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-The player should feel determination in his goal to purge the world of ghosts.
+The player should feel calm and serene during the setup phase, then a rush of panic in the defence phase.
 </li>
 
 <li><strong>Gameplay:</strong>
-The player can move left, right, jump up, shoot cats, and sprint. When a player shoots a ghost the ghost should take damage with the healthbar decreasing, when the player gets hit by a ghost he should take damage with the healthbar decreasing.
+The player can move left, right, jump up, place blocks, and remove blocks. When a player places a block they should have 1 less block to place and it should not overlap with another block. When a player removes a block the player should regain an additional block to place.
 </li>
 
 <li><strong>Strategies:</strong>
-A good strategy is to wait for the ghosts to come at you whilst spamming the cat-gun and jumping over them into a sprint to the other side whilst shooting behind you.
+A good strategy is to go into the case and build fortifications there, the shape of the cave can mis-lead some ghosts if they spawn ontop of the cave.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-Your name is Dave and you were traumatized by a ghost when you were a little child, now that the ghosts are invading from the underworld you see this as your chance to get back at them while saving the world.
+You were run over and hit by a truck and now you are reincarnated into another world as a chicken! But all of the villians you have taken down in your previous life have made a dimensional wormhole and are trying to haunt you as ghosts! You must use your carpentry skills from your previous life to survive the wave of ghosts that seek revenge!
 </li>
 
 <li><strong>Target Audience:</strong>
-The target-audience this is trying to reach is for teenagers and young-adults.
+The target-audience this is trying to reach is anyone.
 </li>
 
 <li><strong>Play Time:</strong>
-It takes about 2 minutes to clear all the ghosts, it can be longer if you spend more time dodging and conserving health.
+It takes about 2 minutes in total to play 1 round and progress through the 2 stages.
 </li>
 
 </ul>
