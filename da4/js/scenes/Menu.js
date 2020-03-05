@@ -35,7 +35,6 @@ export class Menu extends Phaser.Scene {
             32,
             () => {
                 buttonSound.play();
-                music.stop();
                 // Starting Game scene
                 this.scene.start('Game');
             }

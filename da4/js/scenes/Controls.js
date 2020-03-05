@@ -14,8 +14,8 @@ export class Controls extends Phaser.Scene {
         // Bitmap texts
         this.add.bitmapText(6, config.height-24, 'myFont', 'Made by David Mark McMasters', 16);
         this.add.bitmapText((config.width/2), (config.height/2)-112, 'myFont', 'Move: Left and Right arrows', 32).setOrigin(0.5);
-        this.add.bitmapText((config.width/2), (config.height/2)-64, 'myFont', 'Attack: Z', 32).setOrigin(0.5);
-        this.add.bitmapText((config.width/2), (config.height/2)-16, 'myFont', 'Place Block: X', 32).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)-64, 'myFont', 'Place Block: Left-Click', 32).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)-16, 'myFont', 'Remove Block: Left-Click + Shift', 32).setOrigin(0.5);
         this.add.bitmapText((config.width/2), (config.height/2)+32, 'myFont', 'Jump: Spacebar', 32).setOrigin(0.5);
 
         // Sound

@@ -4,18 +4,26 @@ export class Preloader extends Phaser.Scene {
     }
 
     preload() {
-        // Images and spritesheets
+        // Images
         this.load.image('titleBackground', 'assets/images/background.png');
         this.load.image('sky', 'assets/images/sky4.png');
-        this.load.spritesheet('cat', 'assets/sprites/cat.png', {
-            frameWidth: 22,
-            frameHeight: 20
-        });
 
         // Sprites
-        this.load.spritesheet('player', 'assets/sprites/player.png', {
-            frameWidth: 24,
+        this.load.spritesheet('player', 'assets/sprites/chicken.png', {
+            frameWidth: 55,
+            frameHeight: 65
+        });
+        this.load.spritesheet('plank', 'assets/sprites/plank.png', {
+            frameWidth: 80,
+            frameHeight: 80
+        });
+        this.load.spritesheet('arrow', 'assets/sprites/arrow.png', {
+            frameWidth: 62,
             frameHeight: 46
+        });
+        this.load.spritesheet("ghost", "assets/sprites/ghost.png", {
+            frameWidth: 32,
+            frameHeight: 32
         });
 
         // Bitmap font
@@ -24,6 +32,9 @@ export class Preloader extends Phaser.Scene {
         // Audio
         this.load.audio('button', 'assets/audio/button_click01.ogg');
         this.load.audio('menuSong', 'assets/audio/menu_song.ogg');
+        this.load.audio('wood_place', 'assets/audio/wood_place.ogg');
+        this.load.audio('wood_break', 'assets/audio/wood_break.ogg');
+        this.load.audio('victory', 'assets/audio/victory.ogg');
 
         // Tilemap loading
         this.load.image('terrain', 'assets/tiles/spritesheet.png');
