@@ -16,7 +16,7 @@ export let config = {
         default: 'arcade',
         arcade: {
             debug: false,
-            gravity: { y: 1000 },
+            gravity: { y: 0 },
             overlapBias: 8
         }
     }

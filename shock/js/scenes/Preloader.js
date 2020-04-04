@@ -37,7 +37,7 @@ export class Preloader extends Phaser.Scene {
         this.load.audio('victory', 'assets/audio/victory.ogg');
 
         // Tilemap loading
-        this.load.image('terrain', 'assets/maps/textures.png');
+        this.load.image('terrain', 'assets/tiles/textures.png');
         this.load.tilemapTiledJSON('map', 'assets/maps/dev_map.json');
     }
 

@@ -15,7 +15,7 @@ export class TextButton extends Phaser.GameObjects.BitmapText {
     }
 
     enterButtonActiveState() {
-        this.setTint(0xFF0000);
+        this.setTint(0x00FF00);
     }
 
     enterButtonRestState() {
@@ -23,6 +23,6 @@ export class TextButton extends Phaser.GameObjects.BitmapText {
     }
 
     enterButtonHoverState() {
-        this.setTint(0xFF0000);
+        this.setTint(0x00FF00);
     }
 }

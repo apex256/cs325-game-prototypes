@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
  <tileset firstgid="1" name="textures" tilewidth="32" tileheight="32" tilecount="100" columns="10">
-  <image source="textures.png" width="320" height="320"/>
+  <image source="../tiles/textures.png" width="320" height="320"/>
   <tile id="10">
    <properties>
     <property name="collide" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="11">
+   <properties>
+    <property name="collide" type="bool" value="true"/>
+   </properties>
+  </tile>
  </tileset>
- <layer id="1" name="Tile Layer 1" width="10" height="10">
+ <layer id="1" name="ground" width="10" height="10">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+ <layer id="2" name="walls" width="10" height="10">
   <data encoding="csv">
 11,11,11,11,11,11,11,11,11,11,
-11,2,2,2,2,2,2,2,2,11,
-11,2,11,11,2,2,11,11,2,11,
-11,2,11,2,2,2,2,11,2,11,
-11,2,2,2,11,11,2,2,2,11,
-11,2,2,2,11,11,2,2,2,11,
-11,2,11,2,2,2,2,11,2,11,
-11,2,11,11,2,2,11,11,2,11,
-11,2,2,2,2,2,2,2,2,11,
+11,0,0,0,0,0,0,0,0,11,
+11,0,11,11,0,0,11,11,0,11,
+11,0,11,0,0,0,0,11,0,11,
+11,0,0,0,11,11,0,0,0,11,
+11,0,0,0,11,11,0,0,0,11,
+11,0,11,0,0,0,0,11,0,11,
+11,0,11,11,0,0,11,11,0,11,
+11,0,0,0,0,0,0,0,0,11,
 11,11,11,11,11,11,11,11,11,11
 </data>
  </layer>

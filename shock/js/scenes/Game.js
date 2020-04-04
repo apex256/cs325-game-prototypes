@@ -16,12 +16,11 @@ export class Game extends Phaser.Scene {
     create() {
         // Tilemap
         this.map = this.add.tilemap('map');
-        let terrain = this.map.addTilesetImage('spritesheet', 'terrain');
+        let terrain = this.map.addTilesetImage('textures', 'terrain');
 
-        // Tilemap layers and sky
-        this.add.image(0, 0, 'sky').setOrigin(0).setDisplaySize(this.map.widthInPixels, this.map.heightInPixels);
+        // Tilemap layers
         let groundLayer = this.map.createStaticLayer('ground', [terrain], 0, 0);
-        let backgroundLayer = this.map.createStaticLayer('background', [terrain], 0, 0);
+        let wallsLayer = this.map.createStaticLayer('walls', [terrain], 0, 0);
 
         // Player
         this.player = this.physics.add.sprite(400, 1000, 'player');
@@ -43,11 +42,11 @@ export class Game extends Phaser.Scene {
         });
 
         // Physics
-        this.physics.add.collider(this.player, groundLayer);
-        this.physics.add.collider(this.ghosts, groundLayer);
+        this.physics.add.collider(this.player, wallsLayer);
+        this.physics.add.collider(this.ghosts, wallsLayer);
         this.physics.add.collider(this.blocks, this.player);
         this.physics.add.collider(this.blocks, this.ghosts, this.ghostBlockCollide);
-        groundLayer.setCollisionByProperty({collide: true});
+        wallsLayer.setCollisionByProperty({collide: true});
 
         // Input listeners
         this.input.mouse.capture = true;
