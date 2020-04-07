@@ -8,11 +8,6 @@ export class Menu extends Phaser.Scene {
         super('Menu');
     }
 
-    // Getting whether this is the first instance for music player
-    init(data) {
-        this.first = data.firstInstance;
-    }
-
     create() {
         this.add.image(0, 0, 'titleBackground').setOrigin(0, 0);
 

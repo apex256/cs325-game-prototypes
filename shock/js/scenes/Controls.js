@@ -13,10 +13,10 @@ export class Controls extends Phaser.Scene {
 
         // Bitmap texts
         this.add.bitmapText(6, config.height-24, 'myFont', 'Made by David Mark McMasters', 16);
-        this.add.bitmapText((config.width/2), (config.height/2)-112, 'myFont', 'Move: Left and Right arrows', 32).setOrigin(0.5);
-        this.add.bitmapText((config.width/2), (config.height/2)-64, 'myFont', 'Place Block: Left-Click', 32).setOrigin(0.5);
-        this.add.bitmapText((config.width/2), (config.height/2)-16, 'myFont', 'Remove Block: Left-Click + Shift', 32).setOrigin(0.5);
-        this.add.bitmapText((config.width/2), (config.height/2)+32, 'myFont', 'Jump: Spacebar', 32).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)-160, 'myFont', 'Move: W A S D', 48).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)-96, 'myFont', 'Look/Aim: Mouse', 48).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)-32, 'myFont', 'Shoot: Left Click', 48).setOrigin(0.5);
+        this.add.bitmapText((config.width/2), (config.height/2)+32, 'myFont', 'Roll: Spacebar', 48).setOrigin(0.5);
 
         // Sound
         let buttonSound = this.sound.add('button');
@@ -26,7 +26,7 @@ export class Controls extends Phaser.Scene {
             this, config.width/2, (config.height/2)+208,
             'myFont',
             'Back',
-            32,
+            48,
             () => {
                 buttonSound.play();
                 this.scene.start('Menu', { firstInstance: false });

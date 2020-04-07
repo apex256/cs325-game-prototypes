@@ -39,4 +39,9 @@ export let isBetween = function(x, y, bounds_x1, bounds_y1, bounds_x2, bounds_y2
     }
 }
 
+// Length of a line given the endpoints
+export let lineLength = function(ep1_x, ep1_y, ep2_x, ep2_y) {
+    return Math.sqrt(Math.pow((ep2_x-ep1_x), 2) + Math.pow((ep2_y-ep1_y), 2));
+}
+
 new Phaser.Game(config);

@@ -149,7 +149,7 @@ export class Game extends Phaser.Scene {
                 color = color / 2;
             }
 
-           this.lines.add(this.add.line(x, drawStart, x, drawStart, x, drawEnd, color).setOrigin(0));
+           this.lines.add(this.add.line(x, drawStart, 0, 0, 0, drawEnd, color));
            //this.lines.add(new Phaser.Geom.Line(x, drawStart, x, drawEnd));
            //this.line = new Phaser.Geom.Line(x, drawStart, x, drawEnd);
         }
