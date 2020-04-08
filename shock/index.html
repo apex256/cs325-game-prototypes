@@ -25,15 +25,15 @@ body
 
 <ul>
 <li><strong>Originality:</strong>
-The originality of my game is the aspect of building potentially your own homes and shelters with the in-game builder engine. And I guess the tilemap is original since I made it.
+It's a shooter but it's 2D which is rarely done, I want to try and implement multiple/online play into it so that's another form of originality aswell.
 </li>
 
 <li><strong>Technical Merit:</strong>
-I programmed AI for the ghosts, I made a builder engine for building physics objects in real-time for the blocks, and I made a grid system for the game map to lock block placement.
+There will be multiplayer in future iterations, but for now just the trigonometry required to perform the rotation calculations for the aiming.
 </li>
 
 <li><strong>Prototype Postmortem:</strong>
-This assignment taught me more about how inheritance in JavaScript works. The easiest thing was setting up the inital skeleton of the game and the hardest thing was alligning the grid system perfectly.
+This assignment taught me a lot of the limitations of Phaser, originally I wanted to implement the camera moving with the mouse rotation (as if the player was always facing forward) but there is no way to get canvas coordinates and every coordinate is relative to phaser's camera, so as the camera rotated with the mouse the (x, y) positions would always update causing an infinite spinning effect.
 </li>
 
 <li><strong>Prototype Assets:</strong>
@@ -47,47 +47,43 @@ This assignment taught me more about how inheritance in JavaScript works. The ea
 </li>
 
 <li><strong>Prototype Closest Other Game:</strong>
-All of the code was made by me. The cloesest game this prototype resembles is Minecraft and Terraria
+Counter-Strike mixed with a shoot-em up game (Due to POV), you can also equate this to a 2D overhead Quake.
 </li>
 
 <li><strong>High Concept:</strong>
-You must build fortifications and defences in the setup stage, then survive with those in the defence stage.
+You're a competitor in a tournament where people are selected at random to either fight each other or compete through levels of enemies armed with guns.
 </li>
 
 <li><strong>Theme:</strong>
-Sometimes simple is better.
-</li>
-
-<li><strong>Mandated Variety:</strong>
-I used keyboard and mouse inputs, deterministic/random gameplay, the craftsman, and a side-scroller/puzzle genre.
+The theme of a dystopian future.
 </li>
 
 <li><strong>Prototype Goal:</strong>
-The game mechanic being prototyped was the block building engine and the grid system.
+The game mechanic being prototyped is the rotational aiming, movement mechanics, and fundamental gameplay (In future iterations it will be multiplayer and refinement).
 </li>
 
 <li><strong>Player Experience Goals:</strong>
-The player should feel calm and serene during the setup phase, then a rush of panic in the defence phase.
+The player should have a fast-paced and exhilarating experience where matches/levels are short but "sweet".
 </li>
 
 <li><strong>Gameplay:</strong>
-The player can move left, right, jump up, place blocks, and remove blocks. When a player places a block they should have 1 less block to place and it should not overlap with another block. When a player removes a block the player should regain an additional block to place.
+The player should move by using WASD, aim/look with the mouse, possibly run with SHIFT (future iterations), and possibly jump/roll with SPACE (future iterations). You'll have a (future iterations) online options where you face off against others in a server in a deathmatch and possibly team-deathmatch gamemode.
 </li>
 
 <li><strong>Strategies:</strong>
-A good strategy is to go into the case and build fortifications there, the shape of the cave can mis-lead some ghosts if they spawn ontop of the cave.
+Strategies include hiding behind walls and "peeking" when shooting to maximize the cover you get when fighting. Another strategy is the run and gun strategy where you run fast across the map while gunning down your foes.
 </li>
 
 <li><strong>Story/Setting/Premise:</strong>
-You were run over and hit by a truck and now you are reincarnated into another world as a chicken! But all of the villians you have taken down in your previous life have made a dimensional wormhole and are trying to haunt you as ghosts! You must use your carpentry skills from your previous life to survive the wave of ghosts that seek revenge!
+The world setting is a dystopian future with the world led by one single evil corporation that kidnaps people to put through tournaments such as deathmatches and team-deathmatches. (Story is more of an afterthought, I want to focus more on gameplay and refinement similar to games like Doom, Quake, and Counter-Strike).
 </li>
 
 <li><strong>Target Audience:</strong>
-The target-audience this is trying to reach is anyone.
+The target-audience this is trying to reach is teenagers and young adults interested in shooters.
 </li>
 
 <li><strong>Play Time:</strong>
-It takes about 2 minutes in total to play 1 round and progress through the 2 stages.
+Each round would take approximately 5-10 minutes, the matches will be continuous and infinite.
 </li>
 
 </ul>
