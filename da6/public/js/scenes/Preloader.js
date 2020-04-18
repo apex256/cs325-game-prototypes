@@ -27,6 +27,7 @@ export class Preloader extends Phaser.Scene {
         // Audio
         this.load.audio('button', 'assets/audio/button_click01.ogg');
         this.load.audio('menuSong', 'assets/audio/menu_song.ogg');
+        this.load.audio('bullet_small_audio', 'assets/audio/bullet_small.ogg');
 
         // Tilemap loading
         this.load.image('terrain', 'assets/tiles/textures.png');

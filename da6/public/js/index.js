@@ -26,9 +26,7 @@ export let config = {
 
 // Game specific settings object
 export let gameSettings = {
-    playerSpeed: 300,
-    playerJumpVelocity: -800,
-    ghostSpeed: 200
+    playerSpeed: 400
 }
 
 // Is between function (bounds1 is top left, bounds2 is bottom right)
@@ -46,12 +44,31 @@ export let lineLength = function(ep1_x, ep1_y, ep2_x, ep2_y) {
     return Math.sqrt(Math.pow((ep2_x-ep1_x), 2) + Math.pow((ep2_y-ep1_y), 2));
 }
 
-new Phaser.Game(config);
+// Map Spawn Points
+export let spawnPoints = [
+    {x: 128, y: 128, taken: false},
+    {x: 640, y: 380, taken: false},
+    {x: 890, y: 890, taken: false},
+    {x: 380, y: 890, taken: false},
+    {x: 640, y: 1120, taken: false},
+    {x: 1150, y: 128, taken: false},
+    {x: 640, y: 128, taken: false},
+    {x: 1150, y: 1150, taken: false}
+]
 
-/*function preload() {}
-
-function create() {
-    this.socket = io();
+// Spawn Point picker
+export let pickSpawn = (firstOcc) => {
+    if (firstOcc) {
+        for (let i = 0; i < spawnPoints.length; i++) {
+            if (!(spawnPoints[i].taken)) {
+                spawnPoints[i].taken = true;
+                return spawnPoints[i];
+            }
+        }
+    }
+    else {
+        return spawnPoints[Math.floor(Math.random() * 7)];
+    }
 }
 
-function update() {}*/
+new Phaser.Game(config);

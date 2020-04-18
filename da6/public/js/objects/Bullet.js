@@ -1,10 +1,12 @@
 'use strict';
 
-export class Bullet extends Phaser.Physics.Arcade.Image {
+export class Bullet extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, bulletType) {
-        super(scene, 0, 0, '', '');
+        super(scene, 0, 0, 'bullet_small');
 
-        this.setBlendMode(1);
+        this.type = bulletType;
+        
+        //this.setBlendMode(1);
         this.setDepth(1);
 
         this.speed = 1000;
@@ -19,22 +21,28 @@ export class Bullet extends Phaser.Physics.Arcade.Image {
         if (this.lifespan <= 0) {
             this.setActive(false);
             this.setVisible(false);
-            this.body.stop();
+            this.destroy();
         }
     }
 
     fire(player) {
-        this.lifespawn = 100;
+        this.lifespan = 1000;
         this.setActive(true);
         this.setVisible(true);
-        this.setAngle(player.body.rotation);
+        this.setAngle(player.body.rotation - (Math.PI / 2));
         this.setPosition(player.x, player.y);
         this.body.reset(player.x, player.y);
 
-        let angle = Phaser.Math.DegToRad(player.body.rotation);
+        let angle = Phaser.Math.DegToRad(player.body.rotation) - (Math.PI / 2);
         this.scene.physics.velocityFromRotation(angle, this.speed, this.body.velocity);
 
-        this.body.velocity.x *= 2;
-        this.body.velocity.y *= 2;
+        this.body.velocity.x *= 1.5;
+        this.body.velocity.y *= 1.5;
+    }
+
+    onHitHandler() {
+        this.setActive(false);
+        this.setVisible(false);
+        this.destroy();
     }
 }
