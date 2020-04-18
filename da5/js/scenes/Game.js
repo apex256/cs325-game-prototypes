@@ -3,6 +3,8 @@
 import { gameSettings } from '../index.js';
 import { lineLength } from '../index.js';
 import { Bullet } from '../objects/Bullet.js';
+import { Player } from '../objects/Player.js';
+import { pickSpawn } from '../index.js';
 
 export class Game extends Phaser.Scene {
     constructor() {
@@ -15,18 +17,45 @@ export class Game extends Phaser.Scene {
         let terrain = this.map.addTilesetImage('textures', 'terrain');
 
         // Tilemap layers
-        let groundLayer = this.map.createStaticLayer('ground', [terrain], 0, 0);
+        this.map.createStaticLayer('ground', [terrain], 0, 0);
         let wallsLayer = this.map.createStaticLayer('walls', [terrain], 0, 0);
 
+        // Physics groups
+        this.players = this.physics.add.group({
+            classType: Player,
+            maxSize: 8,
+            runChildUpdate: true
+        });
+        this.bullets = this.physics.add.group({
+            classType: Bullet,
+            maxSize: 100,
+            runChildUpdate: true
+        });
+        this.testAIbullets = this.physics.add.group({
+            classType: Bullet,
+            maxSize: 100,
+            runChildUpdate: true
+        });
+
         // Player and crosshair
-        this.player = this.physics.add.sprite(128, 128, 'player').setOrigin(0.5);
-        this.player.setActive(true);
+        this.player = new Player(this, 0, pickSpawn(true));
         this.player.setCollideWorldBounds(true);
         this.crosshair = this.add.sprite(0, 0, 'crosshair').setOrigin(0.5);
 
+        // Test AI
+        this.testAI = new Player(this, 1, pickSpawn(true));
+        this.testAI.setCollideWorldBounds(true);
+
         // Physics
-        this.physics.add.collider(this.player, wallsLayer);
         wallsLayer.setCollisionByProperty({collide: true});
+        this.physics.add.collider(this.players, wallsLayer);
+        this.physics.add.collider(this.bullets, wallsLayer, (bullet) => { bullet.onHitHandler() });
+        this.physics.add.collider(this.testAIbullets, wallsLayer, (bullet) => { bullet.onHitHandler() });
+        this.physics.add.overlap(this.bullets, this.players, this.bulletPlayerCollider.bind(this));
+        this.physics.add.overlap(this.testAIbullets, this.players, this.bulletTestAICollider.bind(this));
+
+        // Audio
+        this.bulletSmallAudio = this.sound.add('bullet_small_audio');
 
         // Input listeners
         this.input.mouse.capture = true;
@@ -35,6 +64,7 @@ export class Game extends Phaser.Scene {
         this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.sprintKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
         // Camera / Mouse Initialization
         this.camera = this.cameras.main;
@@ -43,17 +73,10 @@ export class Game extends Phaser.Scene {
 
         // World Bounds
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-        // Physics groups
-        this.bullets = this.physics.add.group({
-            classType: Bullet,
-            maxSize: 100,
-            runChildUpdate: true
-        });
         
         // On-click event handler
         this.input.on('pointerdown', (function (pointer) {
-            //this.onClickEventHandler();
+            this.fireWeapon();
         }).bind(this));
 
         // Aiming debugging tools
@@ -61,11 +84,30 @@ export class Game extends Phaser.Scene {
         this.debug_xAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
         this.debug_yAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
         this.debug_opAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0xFF0000).setOrigin(0);
+
+        // Debug test AI shooting
+        this.time.addEvent({
+            delay: 100,
+            callback: () => {
+                //this.bulletSmallAudio.play();
+                let bullet = this.testAIbullets.get();
+                if (bullet) {
+                    bullet.setDepth(3);
+                    bullet.fire(this.testAI);
+                }
+            },
+            callbackScope: this,
+            loop: true,
+            paused: false
+        });
     }
 
     update() {
         this.playerMovementManager();
         this.ccManager();
+
+        // Debug test AI movement
+        this.testAI.rotation += 0.1;
     }
 
     // Player movement manager
@@ -99,7 +141,8 @@ export class Game extends Phaser.Scene {
     // Camera and Crosshair Manager
     ccManager() {
         this.mousePos = this.camera.getWorldPoint(this.input.activePointer.x, this.input.activePointer.y);
-        //this.debugAimLineUpdate();
+        // This is for rotational debugging
+        this.debugAimLineUpdate();
 
         // Calculating the angle and checking which quadrant the mouse is relative to player
         let cameraAngle = Math.asin(lineLength(this.mousePos.x-this.player.x, 0, this.mousePos.x-this.player.x, this.mousePos.y-this.player.y)/(lineLength(0, 0, this.mousePos.x-this.player.x, this.mousePos.y-this.player.y)));
@@ -136,5 +179,31 @@ export class Game extends Phaser.Scene {
         this.debug_xAimLine.setTo(-64, 0, 64, 0);
         this.debug_yAimLine.setTo(0, -64, 0, 64);
         this.debug_opAimLine.setTo(this.mousePos.x-this.player.x, 0, this.mousePos.x-this.player.x, this.mousePos.y-this.player.y);
+    }
+
+    // Player firing a weapon
+    fireWeapon() {
+        this.bulletSmallAudio.play();
+        let bullet = this.bullets.get();
+        if (bullet) {
+            bullet.setDepth(3);
+            bullet.fire(this.player);
+        }
+    }
+
+    // Bullet collider
+    bulletPlayerCollider(bullet, target) {
+        if (target.id != this.player.id) {
+            target.onHitHandler(bullet.type);
+            bullet.onHitHandler();
+        }
+    }
+
+    // Bullet Player collider
+    bulletTestAICollider(bullet, target) {
+        if (target.id != this.testAI.id) {
+            target.onHitHandler(bullet.type);
+            bullet.onHitHandler();
+        }
     }
 }
