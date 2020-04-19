@@ -3,7 +3,7 @@
 import { pickSpawn } from '../index.js';
 
 export class Player extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, id, spawnPoint) {
+    constructor(scene, id, spawnPoint, color) {
         super(scene, spawnPoint.x, spawnPoint.y, 'player');
         this.scene = scene;
         scene.add.existing(this);
@@ -16,7 +16,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
         // Rendering options
         this.setActive(true);
-        this.setTint(Math.floor(Math.random()*0xFFFFFF));
+
+        this.setTint(color);
+
     }
 
     update() {
@@ -52,6 +54,5 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
                 this.hp -= 100;
                 break;
         }
-        console.log(`Player ${this.id}'s Health: ${this.hp} | Hit by bullet of type ${bulletType}`);
     }
 }

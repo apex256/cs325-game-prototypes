@@ -1,5 +1,6 @@
 'use strict';
 
+// Imports
 import { gameSettings } from '../index.js';
 import { lineLength } from '../index.js';
 import { Bullet } from '../objects/Bullet.js';
@@ -12,8 +13,45 @@ export class Game extends Phaser.Scene {
     }
 
     create() {
-        // Socket
+        // Socket Logic for players
+        let self = this;
         this.socket = io();
+        // Other players group
+        this.otherPlayers = this.physics.add.group();
+        this.socket.on('currentPlayers', (players) => {
+            Object.keys(players).forEach( (id) => {
+                if (players[id].id === self.socket.id) {
+                    this.addPlayer(self, players[id]);
+                }
+                else {
+                    this.addOtherPlayers(self, players[id]);
+                }
+            });
+        });
+
+        // New player connecting
+        this.socket.on('newPlayer', (playerInfo) => {
+            this.addOtherPlayers(self, playerInfo);
+        });
+
+        // Player disconnecting
+        this.socket.on('disconnect', (id) => {
+            self.otherPlayers.getChildren().forEach( (otherPlayer) => {
+                if (id === otherPlayer.id) {
+                    otherPlayer.destroy();
+                }
+            });
+        });
+
+        // Other player movement
+        this.socket.on('playerMoved', (playerInfo) => {
+            self.otherPlayers.getChildren().forEach( (otherPlayer) => {
+                if (playerInfo.id === otherPlayer.id) {
+                    otherPlayer.setRotation(playerInfo.rotation);
+                    otherPlayer.setPosition(playerInfo.x, playerInfo.y);
+                }
+            });
+        });
 
         // Tilemap
         this.map = this.add.tilemap('map');
@@ -34,28 +72,12 @@ export class Game extends Phaser.Scene {
             maxSize: 100,
             runChildUpdate: true
         });
-        this.testAIbullets = this.physics.add.group({
-            classType: Bullet,
-            maxSize: 100,
-            runChildUpdate: true
-        });
-
-        // Player and crosshair
-        this.player = new Player(this, 0, pickSpawn(true));
-        this.player.setCollideWorldBounds(true);
-        this.crosshair = this.add.sprite(0, 0, 'crosshair').setOrigin(0.5);
-
-        // Test AI
-        this.testAI = new Player(this, 1, pickSpawn(true));
-        this.testAI.setCollideWorldBounds(true);
 
         // Physics
         wallsLayer.setCollisionByProperty({collide: true});
         this.physics.add.collider(this.players, wallsLayer);
         this.physics.add.collider(this.bullets, wallsLayer, (bullet) => { bullet.onHitHandler() });
-        this.physics.add.collider(this.testAIbullets, wallsLayer, (bullet) => { bullet.onHitHandler() });
         this.physics.add.overlap(this.bullets, this.players, this.bulletPlayerCollider.bind(this));
-        this.physics.add.overlap(this.testAIbullets, this.players, this.bulletTestAICollider.bind(this));
 
         // Audio
         this.bulletSmallAudio = this.sound.add('bullet_small_audio');
@@ -69,11 +91,6 @@ export class Game extends Phaser.Scene {
         this.jumpKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.sprintKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
-        // Camera / Mouse Initialization
-        this.camera = this.cameras.main;
-        this.camera.startFollow(this.player, true, 1.00, 1.00);
-        this.mousePos = this.camera.getWorldPoint(this.input.activePointer.x, this.input.activePointer.y);
-
         // World Bounds
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         
@@ -82,22 +99,11 @@ export class Game extends Phaser.Scene {
             this.fireWeapon();
         }).bind(this));
 
-        // Aiming debugging tools
-        this.debug_aimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x00FF00).setOrigin(0);
-        this.debug_xAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
-        this.debug_yAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
-        this.debug_opAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0xFF0000).setOrigin(0);
-
-        // Debug test AI shooting
+        // TIMER TEMPLATE (REMOVE WHEN DONE)
         this.time.addEvent({
-            delay: 100,
+            delay: 1000,
             callback: () => {
-                //this.bulletSmallAudio.play();
-                let bullet = this.testAIbullets.get();
-                if (bullet) {
-                    bullet.setDepth(3);
-                    bullet.fire(this.testAI);
-                }
+                console.log('One second has passed...');
             },
             callbackScope: this,
             loop: true,
@@ -106,11 +112,25 @@ export class Game extends Phaser.Scene {
     }
 
     update() {
-        this.playerMovementManager();
-        this.ccManager();
+        if (this.player) {
+            this.playerMovementManager();
+            this.ccManager();
 
-        // Debug test AI movement
-        this.testAI.rotation += 0.1;
+            // Emitting player movement
+            let x = this.player.x;
+            let y = this.player.y;
+            let r = this.player.r;
+            if (this.player.oldPosition && (x !== this.player.oldPosition.x || y !== this.player.oldPosition.y || r !== this.player.oldPosition.rotation)) {
+                this.socket.emit('playerMovement', { x: this.player.x, y: this.player.y, rotation: this.player.rotation });
+            }
+
+            // Saving old player position data
+            this.player.oldPosition = {
+                x: this.player.x,
+                y: this.player.y,
+                rotation: this.player.rotation
+            };
+        }
     }
 
     // Player movement manager
@@ -202,11 +222,30 @@ export class Game extends Phaser.Scene {
         }
     }
 
-    // Bullet Player collider
-    bulletTestAICollider(bullet, target) {
-        if (target.id != this.testAI.id) {
-            target.onHitHandler(bullet.type);
-            bullet.onHitHandler();
-        }
+    // Function for adding the current player
+    addPlayer(self, playerInfo) {
+        self.player = new Player(this, playerInfo.id, {x: playerInfo.x, y: playerInfo.y}, playerInfo.color);
+        self.player.setCollideWorldBounds(true);
+
+        // Crosshair
+        this.crosshair = this.add.sprite(0, 0, 'crosshair').setOrigin(0.5);
+
+        // Aiming debug tools
+        self.debug_aimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x00FF00).setOrigin(0);
+        self.debug_xAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
+        self.debug_yAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0x0000FF).setOrigin(0);
+        self.debug_opAimLine = this.add.line(this.player.x, this.player.y, 0, 0, 0, 0, 0xFF0000).setOrigin(0);
+
+        // Camera and Mouse initialization
+        this.camera = this.cameras.main;
+        this.camera.startFollow(this.player, true, 1.00, 1.00);
+        this.mousePos = this.camera.getWorldPoint(this.input.activePointer.x, this.input.activePointer.y);
+    }
+
+    // Function for adding other players (possible bug?)
+    addOtherPlayers(self, playerInfo) {
+        const otherPlayer = new Player(this, playerInfo.id, {x: playerInfo.x, y: playerInfo.y}, playerInfo.color);
+        otherPlayer.id = playerInfo.id;
+        self.otherPlayers.add(otherPlayer);
     }
 }

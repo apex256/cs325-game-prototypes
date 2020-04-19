@@ -1,4 +1,6 @@
+'use strict';
 
+// Imports
 import { Boot } from './scenes/Boot.js';
 import { Preloader } from './scenes/Preloader.js';
 import { Menu } from './scenes/Menu.js';
@@ -71,4 +73,5 @@ export let pickSpawn = (firstOcc) => {
     }
 }
 
+// Initializing game
 new Phaser.Game(config);
